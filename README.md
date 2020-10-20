@@ -17,6 +17,8 @@ docker run -d \
 etaylashev/nginxbot
 ```
 
+To test: ``curl http://localhost:80``
+
 Sample output:
 ```
 Info:  This is var1 and var 2
