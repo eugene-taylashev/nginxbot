@@ -24,10 +24,20 @@ ln -sf /dev/stdout /var/log/nginx/access.log \
 is_good '[ok] - redirected logs to stdout/stderr' \
 '[not ok] - redirecting logs to stdout/stderr'
 
-#-- Apply ENV vars
-envsubst '${LAB1} ${LAB2}' < /hello-text.template > /etc/nginx/conf.d/hello-text.conf
-is_good '[ok] - applied env vars into the config template' \
-'[not ok] - applying env vars into the config template'
+#-- run typical server
+if [ -d /var/www/html ] ; then
 
+  cp /server.template /etc/nginx/conf.d/server.conf
+  is_good '[ok] - created typical NGINX configuration' \
+  '[not ok] - creating typical NGINX configuration'
+
+else
+
+  #-- Apply ENV vars
+  envsubst '${LAB1} ${LAB2}' < /hello-text.template > /etc/nginx/conf.d/hello-text.conf
+  is_good '[ok] - applied env vars into the config template' \
+  '[not ok] - applying env vars into the config template'
+
+fi
 echo '[ok] - starting NGINX'
 exec "$@"
